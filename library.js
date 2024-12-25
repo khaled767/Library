@@ -59,18 +59,35 @@ function Book(name, author, pages, read) {
     this.read= read;
 }
 
-function addBookToLibrary(name, author, pages, read){
-
-    const book= new Book(name="odin", author="Omer", pages="339", read="true")
-    const book1= new Book(name="clean Codes", author="Stive Oliver", pages="490", read="true")
-    const book2= new Book(name="Streets", author="Peter smith", pages="100", read="false")
-    const book3=new Book(name, author, pages, read)
-    myLibrary.push(book, book1, book2, book3)
-    console.log(`Book "${book.name}" by ${book.author} added successfully`);
-    console.table(myLibrary)
+function addBookToLibrary( name, author, pages, read){
+    const book = new Book(name, author, pages, read);
+    myLibrary.push(book);
+    const showBooks=document.querySelector('table')
+    
+    for(let i = 0; i < myLibrary.length; i++){
+        const book= myLibrary[i];
+        showBooks.innerHTML +=`
+            <tr>
+                <th>${book.name}</th>
+            </tr>
+            <tr>
+                <td>${book.author}</td>
+            </tr>
+            <tr>
+                <td>${book.pages}</td>
+            </tr>
+            <tr>
+                <td>${book.read}</td>
+            </tr>
+        `
+        //const book=new Book(name, author, pages, read)
+        //myLibrary.push(book)
+        //console.log(`Book "${book.name}" by ${book.author} added successfully`);
+        //console.table(myLibrary)
+    
     return book
+    }
 }
-
 // Ensure no lingring readMassage exists
 delete Book.prototype.readMasseage;
 myLibrary.forEach(book =>{
@@ -91,3 +108,7 @@ Book.prototype.toggleRead= function(){
     this.read= !this.read
     console.log(`${this.readMasseage}`)
 }
+
+// const book= new Book( name="odin", author="Omer", pages="339", read="true")
+//     const book1= new Book(name="clean Codes", author="Stive Oliver", pages="490", read="true")
+//     const book2= new Book(name="Streets", author="Peter smith", pages="100", read="false")
