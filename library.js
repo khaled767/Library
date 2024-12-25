@@ -1,10 +1,13 @@
 let addBook= document.querySelector(".addBook");
 let submit= document.querySelector(".submit")
+const myLibrary= []
+let id= 0
+
 
 
 
 function register() {
-
+    
     let name= document.createElement('input');
     name.setAttribute("type","text")
     let author= document.createElement('input');
@@ -19,7 +22,8 @@ function register() {
     let cancel= document.createElement('button')
     cancel.setAttribute("type","reset")
     cancel.innerHTML= "Cancel"
-    submit.append(name, author, pages, read, save, cancel)   
+    submit.append(name, author, pages, read, save, cancel)
+      
 
     save.addEventListener("click", ()=>{
         if (
@@ -38,41 +42,51 @@ function register() {
         else{ 
             console.log("please fill all fields")// --------- Should write Message to fill the missing
         }
-        
+    })
+    cancel.addEventListener('click', () =>{
+        clearData(name,author, pages, read)
+        submit.style.display="none"
     })
 }
 
-const myLibrary= [];
 
 
-function Book(name, author, pages, read = false) {
+
+function Book(name, author, pages, read) {
     this.name= name;
     this.author= author;
     this.pages= pages;
     this.read= read;
-    this.readMasseage= function(){
-        const haveRead= this.read ? "Have read" : "Not Read";
-        return `${this.name} by ${this.author} number of pages ${this.pages}, ${haveRead}`
-    }
 }
 
-function addBookToLibrary(name, author, pages, read= false) {
+function addBookToLibrary(name, author, pages, read){
 
-    const book= new Book(name, author, pages, read)
-    myLibrary.push(book)
-    //console.log(myLibrary)
-    //console.log(book)
-    console.log(`Book "${book.name}" by ${book.author} added successfully! with good ${book.readMasseage()}`);
+    const book= new Book(name="odin", author="Omer", pages="339", read="true")
+    const book1= new Book(name="clean Codes", author="Stive Oliver", pages="490", read="true")
+    const book2= new Book(name="Streets", author="Peter smith", pages="100", read="false")
+    const book3=new Book(name, author, pages, read)
+    myLibrary.push(book, book1, book2, book3)
+    console.log(`Book "${book.name}" by ${book.author} added successfully`);
     console.table(myLibrary)
     return book
 }
 
+// Ensure no lingring readMassage exists
+delete Book.prototype.readMasseage;
+myLibrary.forEach(book =>{
+    if( book.hasOwnProperty('readMasseage')){
+        delete book.readMasseage;
+    }
+})
+
+// Clear Data:
 function clearData(name, author, pages, read) {
     name.value = "";
     author.value = "";
     pages.value = "";
     read.checked = false;
 }
+// Adding new function Belong to Book:
 Book.prototype.toggleRead= function(){
     this.read= !this.read
     console.log(`${this.readMasseage}`)
