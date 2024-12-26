@@ -59,32 +59,63 @@ function Book(name, author, pages, read) {
     this.read= read;
 }
 
-function addBookToLibrary( name, author, pages, read){
+function addBookToLibrary(name, author, pages, read){
     const book = new Book(name, author, pages, read);
     myLibrary.push(book);
     const showBooks=document.querySelector('table')
+
+     // Clear any previous table content before adding new rows
+     //showBooks.innerHTML = '';
     
     for(let i = 0; i < myLibrary.length; i++){
-        const book= myLibrary[i];
+        newObject= myLibrary
+        console.log(newObject)
+        // Adding the read box:
+        let read= document.createElement('input')
+        read.setAttribute('type','checkbox')
+        read.checked=book.read
+
+        // remove button
+        let removeBtn= document.createElement('button')
+        removeBtn.setAttribute('type','reset')
+
+        //const book= myLibrary[i];
+        showBooks.style.cssText+=`
+        background-color:lightgreen;
+        color:white;
+        margin: 20px 30px;
+        width:240px;
+        height: 280px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        `
         showBooks.innerHTML +=`
             <tr>
-                <th>${book.name}</th>
+                <th>Name: ${book.name}</th>
             </tr>
             <tr>
-                <td>${book.author}</td>
+                <td>Author: ${book.author}</td>
             </tr>
             <tr>
-                <td>${book.pages}</td>
+                <td>Pages Number: ${book.pages}</td>
             </tr>
             <tr>
-                <td>${book.read}</td>
+                <td>${book.read ? "read": "not read"}</td>
+                <td>${read.outerHTML}</td>
             </tr>
+            <tr>
+                <td><buton class='removeBtn' id='removeBtn'>delete ${removeBtn.outerHTML}</button></td>
+            </tr>
+            
         `
-        //const book=new Book(name, author, pages, read)
-        //myLibrary.push(book)
-        //console.log(`Book "${book.name}" by ${book.author} added successfully`);
-        //console.table(myLibrary)
-    
+
+        removeBtn.addEventListener('click', ()=> {
+                    myLibrary.splice(0,1)
+                    console.log("Delteing")
+                })
+        read.addEventListener('change',() =>{
+            book.read= read.checked
+        })
     return book
     }
 }
